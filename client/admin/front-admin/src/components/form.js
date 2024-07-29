@@ -1,5 +1,4 @@
 class Form extends HTMLElement {
-
   constructor () {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
@@ -11,7 +10,7 @@ class Form extends HTMLElement {
 
   render () {
     this.shadow.innerHTML =
-    /*html*/`
+    /* html */`
     <style>
 
       *{
@@ -148,4 +147,4 @@ class Form extends HTMLElement {
   }
 }
 
-customElements.define('form-component', Form);
+customElements.define('form-component', Form)

@@ -5,5 +5,3 @@ import './components/main.js'
 import './components/table.js'
 import './components/form.js'
 import './components/font-loader.js'
-
-

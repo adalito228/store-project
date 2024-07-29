@@ -1,5 +1,4 @@
 class Table extends HTMLElement {
-
   constructor () {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
@@ -7,53 +6,52 @@ class Table extends HTMLElement {
   }
 
   async connectedCallback () {
-    try{
+    try {
       await this.loadData()
       await this.render()
-    } catch (error){
+    } catch (error) {
       console.log(error)
-    }    
+    }
   }
 
-  async loadData(){
-
+  async loadData () {
     this.data = [
       {
-        "name": "Blabla",
-        "email": "blabla@gmail.com",
-        "created_at": "07/06/2024",
-        "updated_at": "10/07/2024"
+        name: 'Blabla',
+        email: 'blabla@gmail.com',
+        created_at: '07/06/2024',
+        updated_at: '10/07/2024'
       },
       {
-        "name": "Bloblo",
-        "email": "bloblo@gmail.com",
-        "created_at": "10/06/2024",
-        "updated_at": "12/07/2024"
+        name: 'Bloblo',
+        email: 'bloblo@gmail.com',
+        created_at: '10/06/2024',
+        updated_at: '12/07/2024'
       },
       {
-        "name": "Blublu",
-        "email": "blublu@gmail.com",
-        "created_at": "15/06/2024",
-        "updated_at": "17/07/2024"
+        name: 'Blublu',
+        email: 'blublu@gmail.com',
+        created_at: '15/06/2024',
+        updated_at: '17/07/2024'
       },
       {
-        "name": "Blibli",
-        "email": "blibli@gmail.com",
-        "created_at": "21/06/2024",
-        "updated_at": "23/07/2024"
+        name: 'Blibli',
+        email: 'blibli@gmail.com',
+        created_at: '21/06/2024',
+        updated_at: '23/07/2024'
       },
       {
-        "name": "Bleble",
-        "email": "bleble@gmail.com",
-        "created_at": "25/06/2024",
-        "updated_at": "27/07/2024"
+        name: 'Bleble',
+        email: 'bleble@gmail.com',
+        created_at: '25/06/2024',
+        updated_at: '27/07/2024'
       }
     ]
   }
 
   render () {
     this.shadow.innerHTML =
-    /*html*/`<style>
+    /* html */`<style>
       ul{
         list-style: none;
         margin: 0;
@@ -183,8 +181,8 @@ class Table extends HTMLElement {
     `
 
     const tableRecords = this.shadow.querySelector('.table-records')
-    
-    this.data.forEach(element =>{
+
+    this.data.forEach(element => {
       const tableRecord = document.createElement('div')
       tableRecord.classList.add('table-record')
       tableRecords.appendChild(tableRecord)
@@ -206,7 +204,7 @@ class Table extends HTMLElement {
       const tableRecordBody = document.createElement('div')
       tableRecordBody.classList.add('table-record-body')
       tableRecord.appendChild(tableRecordBody)
-      
+
       const tableRecordBodyData = document.createElement('ul')
       tableRecordBody.appendChild(tableRecordBodyData)
 
@@ -219,4 +217,4 @@ class Table extends HTMLElement {
   }
 }
 
-customElements.define('table-component', Table);
+customElements.define('table-component', Table)
