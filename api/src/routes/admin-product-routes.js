@@ -1,5 +1,4 @@
 module.exports = (app) => {
-
   const router = require('express').Router()
   const controller = require('../controllers/admin/product-controller.js')
 
@@ -10,5 +9,4 @@ module.exports = (app) => {
   router.delete('/:id', controller.delete)
 
   app.use('/api/admin/products', router)
-
 }

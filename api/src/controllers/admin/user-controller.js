@@ -3,7 +3,6 @@ const User = sequelizeDb.User
 const Op = sequelizeDb.Sequelize.Op
 
 exports.create = (req, res) => {
-
   User.create(req.body).then(async data => {
     res.status(200).send(data)
   }).catch(err => {
