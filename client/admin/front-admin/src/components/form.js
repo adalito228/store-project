@@ -144,6 +144,36 @@ class Form extends HTMLElement {
       </div>
     </section>
     `
+
+    this.saveButton()
+  }
+
+  saveButton () {
+    this.shadow.querySelector('.save-button').addEventListener('click', async (event) => {
+      const form = this.shadow.querySelector('form')
+
+      const formData = new FormData(form)
+
+      const formDataJson = {}
+
+      for (const [key, value] of formData.entries()) {
+        formDataJson[key] = value !== '' ? value : null
+      }
+
+      const endpoint = `${import.meta.env.VITE_API_URL}/api/admin/users`
+
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formDataJson)
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    })
   }
 }
 

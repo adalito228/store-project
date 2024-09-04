@@ -6,50 +6,16 @@ class Table extends HTMLElement {
   }
 
   async connectedCallback () {
-    try {
-      await this.loadData()
-      await this.render()
-    } catch (error) {
-      console.log(error)
-    }
+    await this.loadData()
+    await this.render()
   }
 
   async loadData () {
-    this.data = [
-      {
-        name: 'Blabla',
-        email: 'blabla@gmail.com',
-        created_at: '07/06/2024',
-        updated_at: '10/07/2024'
-      },
-      {
-        name: 'Bloblo',
-        email: 'bloblo@gmail.com',
-        created_at: '10/06/2024',
-        updated_at: '12/07/2024'
-      },
-      {
-        name: 'Blublu',
-        email: 'blublu@gmail.com',
-        created_at: '15/06/2024',
-        updated_at: '17/07/2024'
-      },
-      {
-        name: 'Blibli',
-        email: 'blibli@gmail.com',
-        created_at: '21/06/2024',
-        updated_at: '23/07/2024'
-      },
-      {
-        name: 'Bleble',
-        email: 'bleble@gmail.com',
-        created_at: '25/06/2024',
-        updated_at: '27/07/2024'
-      }
-    ]
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/users`)
+    this.data = await response.json()
   }
 
-  render () {
+  async render () {
     this.shadow.innerHTML =
     /* html */`<style>
       ul{
@@ -182,7 +148,7 @@ class Table extends HTMLElement {
 
     const tableRecords = this.shadow.querySelector('.table-records')
 
-    this.data.forEach(element => {
+    this.data.rows.forEach(element => {
       const tableRecord = document.createElement('div')
       tableRecord.classList.add('table-record')
       tableRecords.appendChild(tableRecord)
