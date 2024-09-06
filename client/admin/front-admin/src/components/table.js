@@ -205,7 +205,14 @@ class Table extends HTMLElement {
       }
 
       if (event.target.closest('.delete-button')) {
+        const id = event.target.closest('.delete-button').dataset.id
+        const endpoint = `${import.meta.env.VITE_API_URL}/api/admin/users/${id}`
 
+        const deleteModal = {
+          endpoint
+        }
+
+        store.dispatch(showDeleteModal(deleteModal))
       }
     })
   }
