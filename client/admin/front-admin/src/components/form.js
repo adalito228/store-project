@@ -1,5 +1,6 @@
 import isEqual from 'lodash-es/isEqual'
 import { store } from '../redux/store.js'
+import { refreshTable } from '../redux/crud-slice.js'
 class Form extends HTMLElement {
   constructor () {
     super()
@@ -124,7 +125,7 @@ class Form extends HTMLElement {
           </ul>
         </div>
         <div class="form-header-buttons">
-          <div class="form-header-button clean-button">
+          <div class="form-header-button reset-button">
             <button>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.36,2.72L20.78,4.14L15.06,9.85C16.13,11.39 16.28,13.24 15.38,14.44L9.06,8.12C10.26,7.22 12.11,7.37 13.65,8.44L19.36,2.72M5.93,17.57C3.92,15.56 2.69,13.16 2.35,10.92L7.23,8.83L14.67,16.27L12.58,21.15C10.34,20.81 7.94,19.58 5.93,17.57Z" /></svg>
             </button>
@@ -161,14 +162,21 @@ class Form extends HTMLElement {
     `
 
     this.saveButton()
+    this.resetButton()
   }
 
   showElement = async element => {
-    console.log(Object.entries(element))
     Object.entries(element).forEach(([key, value]) => {
       if (this.shadow.querySelector(`[name="${key}"]`)) {
         this.shadow.querySelector(`[name="${key}"]`).value = value
       }
+    })
+  }
+
+  resetButton () {
+    this.shadow.querySelector('.reset-button').addEventListener('click', async (event) => {
+      const form = this.shadow.querySelector('form')
+      form.reset()
     })
   }
 
@@ -194,6 +202,10 @@ class Form extends HTMLElement {
           },
           body: JSON.stringify(formDataJson)
         })
+
+        form.reset()
+
+        store.dispatch(refreshTable(endpoint))
       } catch (error) {
         console.log(error)
       }

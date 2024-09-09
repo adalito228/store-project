@@ -1,6 +1,7 @@
 exports.findAll = (req, res) => {
   const routes = {
     '/admin': 'dashboard.html',
+    '/admin/login': 'login.html',
     '/admin/usuarios': 'users.html',
     '/admin/clientes': 'customers.html',
     '/admin/faqs': 'faqs.html',
