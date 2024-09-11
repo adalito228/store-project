@@ -90,7 +90,7 @@ class Menu extends HTMLElement {
           visibility: visible;
         }
       </style>
-
+      
       <div class="menu-button">
         <button>
             <span></span>
