@@ -7,6 +7,7 @@ class Table extends HTMLElement {
     this.shadow = this.attachShadow({ mode: 'open' })
     this.data = []
     this.unsubscribe = null
+
     this.endpoint = `${import.meta.env.VITE_API_URL}/api/admin/users`
   }
 
@@ -158,6 +159,7 @@ class Table extends HTMLElement {
         <span>Un registro en total, mostrando 10 por página</span>
       </div>
     </section>
+    
     `
 
     const tableRecords = this.shadow.querySelector('.table-records')
@@ -216,14 +218,16 @@ class Table extends HTMLElement {
       }
 
       if (event.target.closest('.delete-button')) {
-        const id = event.target.closest('.delete-button').dataset.id
+        const alertComponent = document.querySelector('delete-modal-component')
+
+        /* const id = event.target.closest('.delete-button').dataset.id
         const endpoint = `${import.meta.env.VITE_API_URL}/api/admin/users/${id}`
 
         const deleteModal = {
           endpoint
         }
 
-        store.dispatch(showDeleteModal(deleteModal))
+        store.dispatch(showDeleteModal(deleteModal)) */
       }
     })
   }

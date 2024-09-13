@@ -13,11 +13,16 @@ class Main extends HTMLElement {
     this.shadow.innerHTML =
       /* html */`
       <style>
+        *{
+          box-sizing: border-box;
+        }
+        
         main{
           display: grid;
           gap: 2rem;
           grid-template-columns: ${this.structure};
           width: 100%;
+          padding: 1rem;
         }
       </style>
 

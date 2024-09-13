@@ -17,6 +17,7 @@ class Menu extends HTMLElement {
           height: 2rem;
           width: 2rem;
           position: relative;
+          
         }
 
         .menu-button button{
