@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const User = sequelize.define('User',//Define que va a haber un modelo 
+  const User = sequelize.define('User', // Define que va a haber un modelo
     {
       id: {
         type: DataTypes.INTEGER,
@@ -8,12 +8,32 @@ module.exports = function (sequelize, DataTypes) {
         allowNull: false
       },
       name: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "Nombre".'
+          }
+        }
       },
       email: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.STRING(255),
+        allowNull: false,
+        unique: {
+          args: true,
+          msg: 'Ya existe un usuario con ese correo electrónico.'
+        },
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "Email".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "Email" con un email válido.'
+          },
+          isEmail: {
+            msg: 'Por favor, rellena el campo "Email" con un email válido.'
+          }
+        }
       },
       createdAt: {
         type: DataTypes.DATE
