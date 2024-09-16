@@ -17,7 +17,7 @@ class Form extends HTMLElement {
       if (currentState.crud.formElement && !isEqual(this.formElementData, currentState.crud.formElement.data)) {
         this.formElementData = currentState.crud.formElement.data
 
-        this.showElement(this.formElementData)
+        this.formElementData ? this.showElement(this.formElementData) : this.resetForm()
       }
     })
 
@@ -94,7 +94,7 @@ class Form extends HTMLElement {
       }
 
       .form-body{
-        padding: 1rem;
+        padding: 1rem 0rem;
       }
 
       .form-element{
@@ -176,10 +176,13 @@ class Form extends HTMLElement {
 
   resetButton () {
     this.shadow.querySelector('.reset-button').addEventListener('click', async (event) => {
-      const form = this.shadow.querySelector('form')
-      this.shadow.querySelector("[name='id']").value = ''
-      form.reset()
+      this.resetForm()
     })
+  }
+
+  resetForm () {
+    this.shadow.querySelector('form').reset()
+    this.shadow.querySelector("[name='id']").value = ''
   }
 
   saveButton () {
@@ -193,7 +196,6 @@ class Form extends HTMLElement {
       for (const [key, value] of formData.entries()) {
         formDataJson[key] = value !== '' ? value : null
       }
-      console.log(formDataJson)
 
       const method = formDataJson.id ? 'PUT' : 'POST'
       const endpoint = formDataJson.id ? `${this.endpoint}/${formDataJson.id}` : this.endpoint
@@ -208,11 +210,17 @@ class Form extends HTMLElement {
         })
         this.shadow.querySelector("[name='id']").value = ''
         form.reset()
-
         store.dispatch(refreshTable(this.endpoint))
       } catch (error) {
         console.log(error)
       }
+
+      document.dispatchEvent(new CustomEvent('message', {
+        detail: {
+          message: 'Datos guardados correctamente',
+          type: 'success'
+        }
+      }))
     })
   }
 }

@@ -7,7 +7,9 @@ export const crudSlice = createSlice({
       data: null
     },
     tableEndpoint: null
+
   },
+
   reducers: {
     showFormElement: (state, action) => {
       state.formElement = action.payload

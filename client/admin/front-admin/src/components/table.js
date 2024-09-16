@@ -7,7 +7,6 @@ class Table extends HTMLElement {
     this.shadow = this.attachShadow({ mode: 'open' })
     this.data = []
     this.unsubscribe = null
-
     this.endpoint = `${import.meta.env.VITE_API_URL}/api/admin/users`
   }
 
@@ -218,16 +217,15 @@ class Table extends HTMLElement {
       }
 
       if (event.target.closest('.delete-button')) {
-        const alertComponent = document.querySelector('delete-modal-component')
+        const id = event.target.closest('.delete-button').dataset.id
+        const element = `${this.endpoint}/${id}`
 
-        /* const id = event.target.closest('.delete-button').dataset.id
-        const endpoint = `${import.meta.env.VITE_API_URL}/api/admin/users/${id}`
-
-        const deleteModal = {
-          endpoint
-        }
-
-        store.dispatch(showDeleteModal(deleteModal)) */
+        document.dispatchEvent(new CustomEvent('showDeleteModal', {
+          detail: {
+            endpoint: this.endpoint,
+            element
+          }
+        }))
       }
     })
   }

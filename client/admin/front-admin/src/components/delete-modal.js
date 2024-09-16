@@ -1,19 +1,28 @@
+import { store } from '../redux/store.js'
+import { showFormElement, refreshTable } from '../redux/crud-slice.js'
+
 class DeleteModal extends HTMLElement {
   constructor () {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
-    this.ok = false
   }
 
   connectedCallback () {
     this.render()
+    document.addEventListener('showDeleteModal', this.handleShowModal.bind(this))
+  }
+
+  handleShowModal (event) {
+    this.endpoint = event.detail.endpoint
+    this.element = event.detail.element
+    this.shadow.querySelector('.delete-modal').classList.add('visible')
   }
 
   render () {
     this.shadow.innerHTML =
       /* html */`
     <style>
-        .modal {
+        .delete-modal {
           display: flex;
           position: fixed;
           width: 100%;
@@ -24,9 +33,10 @@ class DeleteModal extends HTMLElement {
           opacity: 0;
           visibility: hidden;
           transition: opacity 0.3s;
+          z-index: 5000;
         }
 
-        .modal.visible {
+        .delete-modal.visible {
           opacity: 1;
           pointer-events: auto;
           visibility: visible;
@@ -41,8 +51,12 @@ class DeleteModal extends HTMLElement {
             text-align: center;
         }
 
-        .message{
+        .delete-message{
             width:100%
+        }
+
+        .delete-message p, button{
+          font-family: "Ubuntu", sans-serif;
         }
         .buttons{
           display:flex;
@@ -68,9 +82,9 @@ class DeleteModal extends HTMLElement {
         }
     </style>
 
-    <div class="modal visible">
+    <div class="delete-modal">
       <div class="modal-content">
-        <div class="message">
+        <div class="delete-message">
           <p>¿Seguro que quiere eliminar el registro?</p>
         </div>
         <div class="buttons">
@@ -92,12 +106,30 @@ class DeleteModal extends HTMLElement {
     const deleteButton = this.shadow.querySelector('.delete-button')
     const cancelButton = this.shadow.querySelector('.cancel-button')
 
-    deleteButton.addEventListener('click', () => {
+    deleteButton.addEventListener('click', async () => {
+      const response = await fetch(this.element, {
+        method: 'DELETE'
+      })
 
+      store.dispatch(refreshTable(this.endpoint))
+      const formElement = {
+        data: null
+      }
+
+      store.dispatch(showFormElement(formElement))
+
+      document.dispatchEvent(new CustomEvent('message', {
+        detail: {
+          message: 'Datos eliminados correctamente',
+          type: 'success'
+        }
+      }))
+
+      this.shadow.querySelector('.delete-modal').classList.remove('visible')
     })
 
     cancelButton.addEventListener('click', () => {
-      this.shadow.querySelector('.modal').classList.remove('visible')
+      this.shadow.querySelector('.delete-modal').classList.remove('visible')
     })
   }
 }
