@@ -9,19 +9,55 @@ module.exports = function (sequelize, DataTypes) {
       },
       commercialAddress: {
         type: DataTypes.STRING,
-        allowNull: false 
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "Dirección comercial".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "Dirección comercial" con un nombre válido.'
+          }
+        }
       },
       fiscalAddress: {
         type: DataTypes.STRING,
-        allowNull: false 
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "Dirección fiscal".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "Dirección fiscal" con un nombre válido.'
+          }
+        }
       },
       commercialName: {
         type: DataTypes.STRING,
-        allowNull: false 
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "Nombre comercial".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "Nombre comercial" con un nombre válido.'
+          }
+        }
       },
       vatNumber: {
         type: DataTypes.STRING,
-        allowNull: false 
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "Vat".'
+          },
+          is: {
+            args: /^(?=.*[A-Z])(?=.*\d)(?=.*[.-])(?=[A-Za-z\d.-]{8,}$)[A-Za-z\d.-]+$/,
+            msg: 'Por favor, rellena el campo "Vat" con un valor correcto.'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "Vat" con un número válido.'
+          }
+        }
       },
       createdAt: {
         type: DataTypes.DATE
@@ -48,7 +84,7 @@ module.exports = function (sequelize, DataTypes) {
   )
 
   Company.associate = function (models) {
-   
+
   }
 
   return Company

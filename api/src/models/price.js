@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const Price = sequelize.define('Price',//Define que va a haber un modelo 
+  const Price = sequelize.define('Price',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -13,7 +13,16 @@ module.exports = function (sequelize, DataTypes) {
       },
       basePrice: {
         type: DataTypes.DECIMAL,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "Precio base".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "Precio base" con un valor válido.'
+          },
+          isDecimal: true
+        }
       },
       current: {
         type: DataTypes.BOOLEAN,

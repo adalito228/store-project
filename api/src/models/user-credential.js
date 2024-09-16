@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const UserCredential = sequelize.define('UserCredential',//Define que va a haber un modelo 
+  const UserCredential = sequelize.define('UserCredential',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -13,11 +13,34 @@ module.exports = function (sequelize, DataTypes) {
       },
       email: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "Email".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "Email" con un email válido.'
+          },
+          isEmail: {
+            msg: 'Por favor, rellena el campo "Email" con un email válido.'
+          }
+        }
       },
       password: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          is: {
+            args: ['^(?=.*[A-Z])(?=.*\d)(?=.*[.-])(?=[A-Za-z\d.-]{8,}$)[A-Za-z\d.-]+$'],
+            msg: 'Por favor, rellena el campo "Contraseña" con 8 caracteres (letra mayúscula y un numero y un punto/guión).'
+          },
+          notNull: {
+            msg: 'Por favor, rellena el campo "Contraseña".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "Contraseña" con una contraseña válida.'
+          }
+        }
       },
       lastPasswordChange: {
         type: DataTypes.STRING,

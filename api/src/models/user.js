@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const User = sequelize.define('User', // Define que va a haber un modelo
+  const User = sequelize.define('User',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -13,6 +13,9 @@ module.exports = function (sequelize, DataTypes) {
         validate: {
           notNull: {
             msg: 'Por favor, rellena el campo "Nombre".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "Nombre" con un nombre válido.'
           }
         }
       },

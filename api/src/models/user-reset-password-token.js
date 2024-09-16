@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const UserResetPasswordToken = sequelize.define('UserResetPasswordToken',//Define que va a haber un modelo 
+  const UserResetPasswordToken = sequelize.define('UserResetPasswordToken',
     {
       id: {
         type: DataTypes.INTEGER,

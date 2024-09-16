@@ -1,15 +1,15 @@
 'use strict'
 
 require('dotenv').config()
-const fs = require('fs')  //Libreria para inreractuar con los archivos y carpetas
+const fs = require('fs')
 const Sequelize = require('sequelize')
 const process = require('process')
 const path = require('path')
-const basename = path.basename(__filename)//__filename variables globales que ya están cargadas en nodejs
+const basename = path.basename(__filename)
 const sequelizeDb = {}
 
 const sequelize = new Sequelize(process.env.DATABASE_NAME, process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, {
-//sequelize en minuiscula es la conexion a la BBDD
+
   host: process.env.DATABASE_HOST,
   dialect: process.env.DATABASE_DIALECT,
 
@@ -21,7 +21,7 @@ const sequelize = new Sequelize(process.env.DATABASE_NAME, process.env.DATABASE_
   }
 })
 
-fs.readdirSync(__dirname)//Mirar el nombre de los archivo de la carpeta donde estás
+fs.readdirSync(__dirname)
   .filter(file => {
     return (
       file.indexOf('.') !== 0 &&
@@ -30,7 +30,7 @@ fs.readdirSync(__dirname)//Mirar el nombre de los archivo de la carpeta donde es
     )
   })
   .forEach(file => {
-    const model = require(path.join(__dirname, file))( //Si tengo una carpeta ocn muchos archivos, mejor usar el método que se usa en index principal
+    const model = require(path.join(__dirname, file))(
       sequelize,
       Sequelize.DataTypes
     )
@@ -46,8 +46,4 @@ Object.keys(sequelizeDb).forEach(modelName => {
 sequelizeDb.sequelize = sequelize
 sequelizeDb.Sequelize = Sequelize
 
-module.exports = sequelizeDb //Es de node js que indica que este archivo sera llamado desde otro archivo y respondera sequelizeDb
-//clave o propiedad y valor en los objetos json
-
-//Cuando arranco todo se cargan las rutas y los modelos con el index.js y las rutas llaman a los controladores y el controlador llamar al
-//index.js de modelos y depende la funciona que se llame en el endpoint se hace create, delete, etc- 
+module.exports = sequelizeDb

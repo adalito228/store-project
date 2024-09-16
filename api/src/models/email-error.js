@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const EmailError = sequelize.define('EmailError',//Define que va a haber un modelo 
+  const EmailError = sequelize.define('EmailError',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -44,7 +44,7 @@ module.exports = function (sequelize, DataTypes) {
   )
 
   EmailError.associate = function (models) {
-   
+
   }
 
   return EmailError

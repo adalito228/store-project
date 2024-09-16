@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const Contact = sequelize.define('Contact',//Define que va a haber un modelo 
+  const Contact = sequelize.define('Contact',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -13,19 +13,58 @@ module.exports = function (sequelize, DataTypes) {
       },
       name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "Nombre".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "Nombre" con un nombre válido.'
+          }
+        }
       },
-      email : {
+      email: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: {
+          args: true,
+          msg: 'Ya existe un usuario con ese correo electrónico.'
+        },
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "Email".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "Email" con un email válido.'
+          },
+          isEmail: {
+            msg: 'Por favor, rellena el campo "Email" con un email válido.'
+          }
+        }
       },
-      subject : {
+      subject: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "Asunto".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "Asunto".'
+          }
+        }
       },
-      message : {
+      message: {
         type: DataTypes.TEXT,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "Mensaje".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "Mensaje".'
+          }
+        }
       },
       createdAt: {
         type: DataTypes.DATE

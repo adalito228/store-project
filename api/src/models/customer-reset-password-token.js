@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const CustomerResetPasswordToken = sequelize.define('CustomerResetPasswordToken',//Define que va a haber un modelo 
+  const CustomerResetPasswordToken = sequelize.define('CustomerResetPasswordToken',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -11,20 +11,16 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      reference: {
+      token: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      totalBasePrice : {
-        type: DataTypes.DECIMAL,
+      expirationDate: {
+        type: DataTypes.DATE,
         allowNull: false
       },
-      saleDate : {
-        type: DataTypes.DATEONLY,
-        allowNull: false
-      },
-      saleTime : {
-        type: DataTypes.TIME,
+      used: {
+        type: DataTypes.BOOLEAN,
         allowNull: false
       },
       createdAt: {
@@ -35,7 +31,7 @@ module.exports = function (sequelize, DataTypes) {
       }
     }, {
       sequelize,
-      tableName: 'customer_reset_password_tokens',
+      tableName: 'customers_reset_password_tokens',
       timestamps: true,
       paranoid: true,
       indexes: [
@@ -46,8 +42,7 @@ module.exports = function (sequelize, DataTypes) {
           fields: [
             { name: 'id' }
           ]
-        }
-        ,
+        },
         {
           name: 'customer_reset_password_tokens_customerId_fk',
           using: 'BTREE',

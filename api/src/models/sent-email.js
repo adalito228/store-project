@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const SentEmail = sequelize.define('SentEmail',//Define que va a haber un modelo 
+  const SentEmail = sequelize.define('SentEmail',
     {
       id: {
         type: DataTypes.INTEGER,

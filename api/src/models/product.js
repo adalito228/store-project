@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const Product = sequelize.define('Product',//Define que va a haber un modelo 
+  const Product = sequelize.define('Product',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -7,31 +7,81 @@ module.exports = function (sequelize, DataTypes) {
         primaryKey: true,
         allowNull: false
       },
-      productCategoryId:{
+      productCategoryId: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
       name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "Nombre".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "Nombre" con un nombre válido.'
+          }
+        }
       },
       reference: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "Referencia".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "Referencia" con un nombre válido.'
+          }
+        }
       },
       units: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "Unidades".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "Unidades" con un número válido.'
+          },
+          isInt: {
+            msg: 'Por favor, rellena el campo "Unidades" con un número válido.'
+          }
+        }
       },
-      measurementUnit : {
+      measurementUnit: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "Unidades de medida".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "Unidades de medida".'
+          },
+          isAlpha: {
+            msg: 'Por favor, rellena el campo "Unidades de medida" con una opción correcta.'
+          }
+
+        }
       },
-      measurement : {
+      measurement: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo "Medida".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "Medida".'
+          },
+          isInt: {
+            msg: 'Por favor, introduce un número válido en el campo "Medida".'
+          }
+        }
       },
-      visible : {
+      visible: {
         type: DataTypes.BOOLEAN,
         allowNull: false
       },

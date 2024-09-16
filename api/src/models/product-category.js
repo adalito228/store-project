@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const ProductCategory = sequelize.define('ProductCategory',//Define que va a haber un modelo 
+  const ProductCategory = sequelize.define('ProductCategory',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -9,9 +9,17 @@ module.exports = function (sequelize, DataTypes) {
       },
       name: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'Por favor, rellena el campo " Nombre".'
+          },
+          notEmpty: {
+            msg: 'Por favor, rellena el campo "Nombre" con un nombre válido.'
+          }
+        }
       },
-      
+
       createdAt: {
         type: DataTypes.DATE
       },

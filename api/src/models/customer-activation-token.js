@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const CustomerActivationToken = sequelize.define('CustomerActivationToken',//Define que va a haber un modelo 
+  const CustomerActivationToken = sequelize.define('CustomerActivationToken',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -42,7 +42,7 @@ module.exports = function (sequelize, DataTypes) {
           fields: [
             { name: 'id' }
           ]
-        },{
+        }, {
           name: 'customers_customerId_fk',
           using: 'BTREE',
           fields: [

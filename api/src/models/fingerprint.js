@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const Fingerprint = sequelize.define('Fingerprint',//Define que va a haber un modelo 
+  const Fingerprint = sequelize.define('Fingerprint',
     {
       id: {
         type: DataTypes.INTEGER,

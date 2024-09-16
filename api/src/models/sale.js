@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-  const Sale = sequelize.define('Sale',//Define que va a haber un modelo 
+  const Sale = sequelize.define('Sale',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -15,15 +15,15 @@ module.exports = function (sequelize, DataTypes) {
         type: DataTypes.STRING,
         allowNull: false
       },
-      totalBasePrice : {
+      totalBasePrice: {
         type: DataTypes.DECIMAL,
         allowNull: false
       },
-      saleDate : {
+      saleDate: {
         type: DataTypes.DATEONLY,
         allowNull: false
       },
-      saleTime : {
+      saleTime: {
         type: DataTypes.TIME,
         allowNull: false
       },
@@ -62,7 +62,6 @@ module.exports = function (sequelize, DataTypes) {
     Sale.belongsTo(models.Customer, { as: 'customer', foreignKey: 'customerId' })
     Sale.hasMany(models.Return, { as: 'returns', foreignKey: 'saleId' })
     Sale.hasMany(models.SaleDetail, { as: 'saleDetails', foreignKey: 'saleId' })
-    //Sale.belongsToMany(models.Product, { through: models.SaleDetail, as: 'products', foreignKey: 'saleId' }) 
   }
 
   return Sale
