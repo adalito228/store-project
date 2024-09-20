@@ -1,6 +1,6 @@
 import isEqual from 'lodash-es/isEqual'
 import { store } from '../redux/store.js'
-import { showFormElement } from '../redux/crud-slice.js'
+import { showFormElement, applyFilter } from '../redux/crud-slice.js'
 class Table extends HTMLElement {
   constructor () {
     super()
@@ -8,6 +8,7 @@ class Table extends HTMLElement {
     this.data = []
     this.unsubscribe = null
     this.endpoint = `${import.meta.env.VITE_API_URL}/api/admin/users`
+    this.queryString = null
   }
 
   async connectedCallback () {
@@ -18,6 +19,20 @@ class Table extends HTMLElement {
         await this.loadData()
         await this.render()
       }
+
+      if (!isEqual(this.queryString, currentState.crud.queryString)) {
+        this.queryString = currentState.crud.queryString
+        await this.loadData()
+        await this.render()
+
+        if (this.queryString) {
+          const filterButton = this.shadow.querySelector('.filter-button')
+          const filterCancelButton = this.shadow.querySelector('.filter-cancel-button')
+
+          filterButton.classList.remove('active')
+          filterCancelButton.classList.add('active')
+        }
+      }
     })
 
     await this.loadData()
@@ -25,7 +40,8 @@ class Table extends HTMLElement {
   }
 
   async loadData () {
-    const response = await fetch(this.endpoint)
+    const endpoint = this.queryString ? `${this.endpoint}?${this.queryString}` : this.endpoint
+    const response = await fetch(endpoint)
     this.data = await response.json()
   }
 
@@ -67,7 +83,19 @@ class Table extends HTMLElement {
         height: 1.5rem;
       }
 
-      .filter-button svg{
+      .filter-button, .filter-cancel-button {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+      }
+
+      .filter-button.active, .filter-cancel-button.active{
+        display: block;
+      }
+
+      .table-header svg{
         width: 1.8rem;
         height: 1.8rem;
         fill: hsl(239, 73%, 47%);
@@ -76,6 +104,10 @@ class Table extends HTMLElement {
       .filter-button svg:hover{
         fill: hsl(272, 40%, 35%);
       }
+
+      .filter-button.active, .filter-cancel-button.active{
+            display: block;
+      s}
 
       .table-records{
         align-items: center;
@@ -133,6 +165,8 @@ class Table extends HTMLElement {
       }
 
       .table-pagination {
+        display: flex;
+        gap:0.5rem;
         background-color: white;
         font-size: 1rem;
         padding: 0.5rem;
@@ -145,17 +179,22 @@ class Table extends HTMLElement {
 
     <section class="table">
       <div class="table-header">
-        <div class="filter-button">
+        <div class="filter-button active">
           <button>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14,12V19.88C14.04,20.18 13.94,20.5 13.71,20.71C13.32,21.1 12.69,21.1 12.3,20.71L10.29,18.7C10.06,18.47 9.96,18.16 10,17.87V12H9.97L4.21,4.62C3.87,4.19 3.95,3.56 4.38,3.22C4.57,3.08 4.78,3 5,3V3H19V3C19.22,3 19.43,3.08 19.62,3.22C20.05,3.56 20.13,4.19 19.79,4.62L14.03,12H14Z" /></svg>
           </button>
+        </div>
+        <div class="filter-cancel-button"> 
+            <button>         
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.76,20.83L17.6,18L14.76,15.17L16.17,13.76L19,16.57L21.83,13.76L23.24,15.17L20.43,18L23.24,20.83L21.83,22.24L19,19.4L16.17,22.24L14.76,20.83M12,12V19.88C12.04,20.18 11.94,20.5 11.71,20.71C11.32,21.1 10.69,21.1 10.3,20.71L8.29,18.7C8.06,18.47 7.96,18.16 8,17.87V12H7.97L2.21,4.62C1.87,4.19 1.95,3.56 2.38,3.22C2.57,3.08 2.78,3 3,3V3H17V3C17.22,3 17.43,3.08 17.62,3.22C18.05,3.56 18.13,4.19 17.79,4.62L12.03,12H12Z" /></svg>
+            </button>
         </div>
       </div>
 
       <div class="table-records"></div>
 
       <div class="table-pagination">
-        <span>Un registro en total, mostrando 10 por página</span>
+        <div class="table-o>
       </div>
     </section>
     
@@ -199,11 +238,11 @@ class Table extends HTMLElement {
       })
     })
 
-    this.renderRegisterButtons()
+    this.renderButtons()
   }
 
-  async renderRegisterButtons () {
-    this.shadow.querySelector('.table-records').addEventListener('click', async (event) => {
+  async renderButtons () {
+    this.shadow.querySelector('.table').addEventListener('click', async (event) => {
       if (event.target.closest('.edit-button')) {
         const id = event.target.closest('.edit-button').dataset.id
         const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/users/${id}`)
@@ -226,6 +265,16 @@ class Table extends HTMLElement {
             element
           }
         }))
+      }
+
+      if (event.target.closest('.filter-button')) {
+        document.dispatchEvent(new CustomEvent('showFilterModal'))
+      }
+
+      if (event.target.closest('.filter-cancel-button')) {
+        store.dispatch(applyFilter(null))
+        this.shadow.querySelector('.filter-button').classList.add('active')
+        event.target.closest('.filter-cancel-button').classList.remove('active')
       }
     })
   }
