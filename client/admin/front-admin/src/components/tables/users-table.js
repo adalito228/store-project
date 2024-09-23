@@ -1,7 +1,7 @@
 import isEqual from 'lodash-es/isEqual'
-import { store } from '../redux/store.js'
-import { showFormElement, applyFilter } from '../redux/crud-slice.js'
-class Table extends HTMLElement {
+import { store } from '../../redux/store.js'
+import { showFormElement, applyFilter } from '../../redux/crud-slice.js'
+class UsersTable extends HTMLElement {
   constructor () {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
@@ -415,4 +415,4 @@ class Table extends HTMLElement {
   }
 }
 
-customElements.define('table-component', Table)
+customElements.define('users-table-component', UsersTable)

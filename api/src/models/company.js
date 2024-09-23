@@ -51,7 +51,7 @@ module.exports = function (sequelize, DataTypes) {
             msg: 'Por favor, rellena el campo "Vat".'
           },
           is: {
-            args: /^(?=.*[A-Z])(?=.*\d)(?=.*[.-])(?=[A-Za-z\d.-]{8,}$)[A-Za-z\d.-]+$/,
+            args: /^[A-Z]{2}[A-Za-z0-9]{8,12}$/,
             msg: 'Por favor, rellena el campo "Vat" con un valor correcto.'
           },
           notEmpty: {

@@ -2,9 +2,8 @@ const sequelizeDb = require('../../models')
 const Company = sequelizeDb.Company
 const Op = sequelizeDb.Sequelize.Op
 
-
 exports.create = (req, res) => {
-
+  console.log('entro')
   Company.create(req.body).then(async data => {
     res.status(200).send(data)
   }).catch(err => {
@@ -33,7 +32,6 @@ exports.findAll = (req, res) => {
   }
 
   const condition = Object.keys(whereStatement).length > 0 ? { [Op.and]: [whereStatement] } : {}
-
 
   Company.findAndCountAll({
     where: condition,

@@ -1,13 +1,13 @@
 import isEqual from 'lodash-es/isEqual'
-import { store } from '../redux/store.js'
-import { refreshTable } from '../redux/crud-slice.js'
-class Form extends HTMLElement {
+import { store } from '../../redux/store.js'
+import { refreshTable } from '../../redux/crud-slice.js'
+class CompaniesForm extends HTMLElement {
   constructor () {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
     this.unsubscribe = null
     this.formElementData = null
-    this.endpoint = `${import.meta.env.VITE_API_URL}/api/admin/users`
+    this.endpoint = `${import.meta.env.VITE_API_URL}/api/admin/companies`
   }
 
   connectedCallback () {
@@ -185,28 +185,34 @@ class Form extends HTMLElement {
             <input type="hidden" name="id">
             <div class="form-element">
               <div class="form-element-label">
-                <label for="name">Nombre</label>
+                <label for="commercialName">Nombre</label>
               </div>
               <div class="form-element-input">
-                <input type="text" name="name" id="name">
+                <input type="text" name="commercialName" id="commercialName">
               </div>
             </div>
             <div class="form-element">
               <div class="form-element-label">
-                <label for="email">Email</label>
+                <label for="vatNumber">NIF</label>
               </div>
               <div class="form-element-input">
-                <input type="email" name="email" id="email">
+                <input type="text" name="vatNumber" id="vatNumber">
               </div>
             </div>
-          </div>
-          <div class="tab-content" data-tab="prices">
             <div class="form-element">
               <div class="form-element-label">
-                <label for="name">Precio</label>
+                <label for="commercialAddress">Dirección comercial</label>
               </div>
               <div class="form-element-input">
-                <input type="text" name="name" id="name">
+                <input type="text" name="commercialAddress" id="commercialAddress">
+              </div>
+            </div>
+            <div class="form-element">
+              <div class="form-element-label">
+                <label for="fiscalAddress">Dirección fiscal</label>
+              </div>
+              <div class="form-element-input">
+                <input type="text" name="fiscalAddress" id="fiscalAddress">
               </div>
             </div>
           </div>
@@ -274,6 +280,7 @@ class Form extends HTMLElement {
       for (const [key, value] of formData.entries()) {
         formDataJson[key] = value !== '' ? value : null
       }
+      console.log(formDataJson)
 
       const method = formDataJson.id ? 'PUT' : 'POST'
       const endpoint = formDataJson.id ? `${this.endpoint}/${formDataJson.id}` : this.endpoint
@@ -330,4 +337,4 @@ class Form extends HTMLElement {
   }
 }
 
-customElements.define('form-component', Form)
+customElements.define('companies-form-component', CompaniesForm)

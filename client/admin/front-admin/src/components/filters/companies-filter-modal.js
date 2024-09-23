@@ -1,6 +1,6 @@
-import { store } from '../redux/store.js'
-import { applyFilter } from '../redux/crud-slice.js'
-class FilterModal extends HTMLElement {
+import { store } from '../../redux/store.js'
+import { applyFilter } from '../../redux/crud-slice.js'
+class CompaniesFilterModal extends HTMLElement {
   constructor () {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
@@ -140,10 +140,12 @@ class FilterModal extends HTMLElement {
       form.reset()
     })
 
-    filterCancelButton.addEventListener('click', () => {
+    filterCancelButton.addEventListener('click', (event) => {
+      event.preventDefault()
+
       this.shadow.querySelector('.filter-form').classList.remove('visible')
     })
   }
 }
 
-customElements.define('filter-modal-component', FilterModal)
+customElements.define('companies-filter-modal-component', CompaniesFilterModal)
