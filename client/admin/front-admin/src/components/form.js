@@ -57,13 +57,22 @@ class Form extends HTMLElement {
         background-color: white;
       }
 
+      .tabs ul{
+        display: flex;
+      }
+
       .tabs ul li{
-        background-color: hsl(272, 40%, 35%);
-        color: white;
+        color: hsl(239, 73%, 47%);
+        cursor: pointer;
         font-weight: bold;
         display: flex;
         font-size: 0.8rem;
         padding: 0.6rem;
+      }
+
+      .tabs ul li.active{
+        background-color: hsl(272, 40%, 35%);
+        color: white;
       }
 
       .form-header-buttons{
@@ -87,7 +96,11 @@ class Form extends HTMLElement {
         fill: hsl(272, 40%, 35%);
       }
 
-      form{
+      .tab-content{
+        display: none;
+      }
+
+      .tab-content.active{
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
         gap: 1rem; 
@@ -138,17 +151,16 @@ class Form extends HTMLElement {
         font-weight: 600;
       }
       .form-element-input input.error{
-            border-bottom: 2px solid hsl(0, 93%, 66%);
-          }
-
-
+        border-bottom: 2px solid hsl(0, 93%, 66%);
+      }
     </style>
 
     <section class="form">
       <div class="form-header">
         <div class="tabs">
           <ul>
-            <li>General</li>
+            <li class="tab active" data-tab="general">General</li>
+            <li class="tab" data-tab="prices">Precios</li>
           </ul>
         </div>
         <div class="form-header-buttons">
@@ -169,21 +181,33 @@ class Form extends HTMLElement {
           <ul></ul>
         </div>
         <form>
-          <input type="hidden" name="id">
-          <div class="form-element">
-            <div class="form-element-label">
-              <label for="name">Nombre</label>
+          <div class="tab-content active" data-tab="general">
+            <input type="hidden" name="id">
+            <div class="form-element">
+              <div class="form-element-label">
+                <label for="name">Nombre</label>
+              </div>
+              <div class="form-element-input">
+                <input type="text" name="name" id="name">
+              </div>
             </div>
-            <div class="form-element-input">
-              <input type="text" name="name" id="name">
+            <div class="form-element">
+              <div class="form-element-label">
+                <label for="email">Email</label>
+              </div>
+              <div class="form-element-input">
+                <input type="email" name="email" id="email">
+              </div>
             </div>
           </div>
-          <div class="form-element">
-            <div class="form-element-label">
-              <label for="email">Email</label>
-            </div>
-            <div class="form-element-input">
-              <input type="email" name="email" id="email">
+          <div class="tab-content" data-tab="prices">
+            <div class="form-element">
+              <div class="form-element-label">
+                <label for="name">Precio</label>
+              </div>
+              <div class="form-element-input">
+                <input type="text" name="name" id="name">
+              </div>
             </div>
           </div>
         </form>
@@ -193,6 +217,7 @@ class Form extends HTMLElement {
 
     this.saveButton()
     this.resetButton()
+    this.tabsButton()
   }
 
   showElement = async element => {
@@ -200,6 +225,21 @@ class Form extends HTMLElement {
     Object.entries(element).forEach(([key, value]) => {
       if (this.shadow.querySelector(`[name="${key}"]`)) {
         this.shadow.querySelector(`[name="${key}"]`).value = value
+      }
+    })
+  }
+
+  tabsButton () {
+    this.shadow.querySelector('.form').addEventListener('click', async (event) => {
+      if (event.target.closest('.tab')) {
+        const tab = event.target.closest('.tab')
+
+        if (!tab.classList.contains('active')) {
+          this.shadow.querySelector('.tab.active').classList.remove('active')
+          tab.classList.add('active')
+          this.shadow.querySelector('.tab-content.active').classList.remove('active')
+          this.shadow.querySelector(`.tab-content[data-tab="${tab.dataset.tab}"]`).classList.add('active')
+        }
       }
     })
   }

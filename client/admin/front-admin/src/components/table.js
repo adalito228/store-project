@@ -9,6 +9,7 @@ class Table extends HTMLElement {
     this.unsubscribe = null
     this.endpoint = `${import.meta.env.VITE_API_URL}/api/admin/users`
     this.queryString = null
+    this.page = 1
   }
 
   async connectedCallback () {
@@ -40,7 +41,7 @@ class Table extends HTMLElement {
   }
 
   async loadData () {
-    const endpoint = this.queryString ? `${this.endpoint}?${this.queryString}` : this.endpoint
+    const endpoint = this.queryString ? `${this.endpoint}?${this.queryString}&page=${this.page}` : `${this.endpoint}?page=${this.page}`
     const response = await fetch(endpoint)
     this.data = await response.json()
   }
@@ -106,8 +107,8 @@ class Table extends HTMLElement {
       }
 
       .filter-button.active, .filter-cancel-button.active{
-            display: block;
-      s}
+        display: block;
+      }
 
       .table-records{
         align-items: center;
@@ -175,6 +176,85 @@ class Table extends HTMLElement {
       .table-pagination span {
         font-size: 0.8rem;
       }
+
+      .table-footer{
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .table-info{
+        background-color: hsl(0, 0%, 100%);
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem;
+        width: 100%;  
+      }
+
+      .table-info p{
+        color: hsl(0, 0%, 29%);   
+        font-weight: 700;
+        margin: 0;
+      }
+
+      .table-page-buttons{
+        align-items: center;
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .table-page-button{
+        cursor: pointer;
+        fill: hsl(225, 63%, 65%);
+        height: 1.5rem;
+        width: 1.5rem;
+      }
+
+      .current-page{
+        align-items: center;
+        display: flex;
+        height: 1.5rem;
+        width: 4rem;
+      }
+
+      .current-page input{
+        border: none;
+        border-radius: 0.5rem;
+        color: hsl(225, 63%, 65%);
+        font-weight: 600;
+        outline: none;
+        text-align: center;
+        width: 100%;
+      }
+
+      .current-page label{
+        border: 1px solid  hsl(225, 63%, 65%);
+        border-radius: 0.5rem;
+        display: flex;
+        gap: 0.2rem;
+        padding: 0 0.2rem;
+      }
+
+      .current-page button{
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        outline: none;
+        padding: 0;
+      }
+
+      .current-page svg{
+        fill: hsl(225, 63%, 65%);
+        width: 1.5rem;
+      }
+
+      input[type="number"]::-webkit-outer-spin-button,
+      input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      
     </style>
 
     <section class="table">
@@ -193,11 +273,38 @@ class Table extends HTMLElement {
 
       <div class="table-records"></div>
 
-      <div class="table-pagination">
-        <div class="table-o>
+      <div class="table-footer">
+        <div class="table-info">
+            <div>
+                <p>
+                  ${this.data.count} ${this.data.count === 1 ? 'registro' : 'registros'} en total, mostrando ${this.data.meta.size} por página
+                </p>  
+            </div>                 
+            <div class="table-page-buttons">
+              <div class="table-page-button" data-page="1">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.41,7.41L17,6L11,12L17,18L18.41,16.59L13.83,12L18.41,7.41M12.41,7.41L11,6L5,12L11,18L12.41,16.59L7.83,12L12.41,7.41Z" /></svg>
+              </div>  
+              <div class="table-page-button" data-page="${this.data.meta.currentPage > 1 ? parseInt(this.data.meta.currentPage) - 1 : 1}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>chevron-left</title><path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" /></svg>                     
+              </div>  
+              <div class="current-page">
+                <label>
+                  <input type="number" value="${this.data.meta.currentPage}"> 
+                  <button class="go-to-page">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4,10V14H13L9.5,17.5L11.92,19.92L19.84,12L11.92,4.08L9.5,6.5L13,10H4Z" /></svg>
+                  </button>
+                </label>
+              </div>
+              <div class="table-page-button" data-page="${parseInt(this.data.meta.currentPage) + 1 < this.data.meta.pages ? parseInt(this.data.meta.currentPage) + 1 : this.data.meta.pages}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>chevron-right</title><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" /></svg>
+              </div>  
+              <div class="table-page-button" data-page="${this.data.meta.pages}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>chevron-double-right</title><path d="M5.59,7.41L7,6L13,12L7,18L5.59,16.59L10.17,12L5.59,7.41M11.59,7.41L13,6L19,12L13,18L11.59,16.59L16.17,12L11.59,7.41Z" /></svg>                      
+              </div>  
+            </div>                 
+        </div>
       </div>
     </section>
-    
     `
 
     const tableRecords = this.shadow.querySelector('.table-records')
@@ -242,6 +349,26 @@ class Table extends HTMLElement {
   }
 
   async renderButtons () {
+    this.shadow.querySelector('.go-to-page').addEventListener('click', async event => {
+      const page = this.shadow.querySelector('.current-page input').value
+
+      if (!page || page < 1 || page.includes('.') || page.includes(',')) {
+        this.shadow.querySelector('.current-page input').value = this.page
+      } else if (page > this.data.meta.pages) {
+        document.dispatchEvent(new CustomEvent('message', {
+          detail: {
+            message: `No se puede acceder a la página ${page}, solo hay ${this.data.meta.pages} ${this.data.meta.pages === 1 ? 'página disponible' : 'páginas disponibles'} `,
+            type: 'error'
+          }
+        }))
+        this.shadow.querySelector('.current-page input').value = this.page
+      } else {
+        this.page = page
+        await this.loadData()
+        await this.render()
+      }
+    })
+
     this.shadow.querySelector('.table').addEventListener('click', async (event) => {
       if (event.target.closest('.edit-button')) {
         const id = event.target.closest('.edit-button').dataset.id
@@ -264,6 +391,7 @@ class Table extends HTMLElement {
             endpoint: this.endpoint,
             element
           }
+
         }))
       }
 
@@ -275,6 +403,13 @@ class Table extends HTMLElement {
         store.dispatch(applyFilter(null))
         this.shadow.querySelector('.filter-button').classList.add('active')
         event.target.closest('.filter-cancel-button').classList.remove('active')
+      }
+
+      if (event.target.closest('.table-page-button')) {
+        const pageButton = event.target.closest('.table-page-button')
+        this.page = pageButton.dataset.page
+        await this.loadData()
+        await this.render()
       }
     })
   }
