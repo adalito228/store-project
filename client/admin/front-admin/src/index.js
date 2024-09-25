@@ -15,3 +15,7 @@ import './components/forms/users-form.js'
 import './components/filters/companies-filter-modal.js'
 import './components/tables/companies-table.js'
 import './components/forms/companies-form.js'
+
+import './components/filters/product-categories-filter-modal.js'
+import './components/tables/product-categories-table.js'
+import './components/forms/product-categories-form.js'

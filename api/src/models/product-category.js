@@ -21,10 +21,20 @@ module.exports = function (sequelize, DataTypes) {
       },
 
       createdAt: {
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
+        get () {
+          return this.getDataValue('createdAt')
+            ? this.getDataValue('createdAt').toISOString().split('T')[0]
+            : null
+        }
       },
       updatedAt: {
-        type: DataTypes.DATE
+        type: DataTypes.DATE,
+        get () {
+          return this.getDataValue('updatedAt')
+            ? this.getDataValue('updatedAt').toISOString().split('T')[0]
+            : null
+        }
       },
       deletedAt: {
         type: DataTypes.DATE

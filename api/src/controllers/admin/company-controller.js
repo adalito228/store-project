@@ -1,6 +1,8 @@
 const sequelizeDb = require('../../models')
 const Company = sequelizeDb.Company
 const Op = sequelizeDb.Sequelize.Op
+const moment = require('moment')
+require('moment/locale/es')
 
 exports.create = (req, res) => {
   console.log('entro')
@@ -41,6 +43,13 @@ exports.findAll = (req, res) => {
     order: [['createdAt', 'DESC']]
   })
     .then(result => {
+      /* const formattedResult = result.rows.map(company => {
+        return {
+          ...company.toJSON(),
+          createdAt: moment(company.createdAt).locale('es').format('DD-MM-YYYY'),
+          updatedAt: moment(company.updatedAt).locale('es').format('DD-MM-YYYY')
+        }
+      }) */
       result.meta = {
         total: result.count,
         pages: Math.ceil(result.count / limit),
@@ -48,6 +57,7 @@ exports.findAll = (req, res) => {
         size: limit
       }
 
+      // res.status(200).send({ rows: formattedResult, meta: result.meta })
       res.status(200).send(result)
     }).catch(err => {
       res.status(500).send({

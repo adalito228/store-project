@@ -10,10 +10,10 @@ module.exports = {
         autoIncrement: true,
         allowNull: false
       },
-      productCategoryId:{
+      productCategoryId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references:{
+        references: {
           model: 'product_categories',
           key: 'id'
         },
@@ -32,15 +32,15 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      measurementUnit : {
+      measurementUnit: {
         type: Sequelize.STRING,
         allowNull: false
       },
-      measurement : {
+      measurement: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      visible : {
+      visible: {
         type: Sequelize.BOOLEAN,
         allowNull: false
       },

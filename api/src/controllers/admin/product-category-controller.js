@@ -1,9 +1,9 @@
 const sequelizeDb = require('../../models')
 const productCategory = sequelizeDb.ProductCategory
 const Op = sequelizeDb.Sequelize.Op
+require('moment/locale/es')
 
 exports.create = (req, res) => {
-
   productCategory.create(req.body).then(async data => {
     res.status(200).send(data)
   }).catch(err => {
@@ -33,13 +33,12 @@ exports.findAll = (req, res) => {
 
   const condition = Object.keys(whereStatement).length > 0 ? { [Op.and]: [whereStatement] } : {}
 
-
   productCategory.findAndCountAll({
     where: condition,
     attributes: ['id', 'name', 'createdAt', 'updatedAt'],
     limit,
     offset,
-    order: [['createdAt', 'DESC']]
+    order: [['id', 'ASC']]
   })
     .then(result => {
       result.meta = {
