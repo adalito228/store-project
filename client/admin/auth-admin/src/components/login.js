@@ -12,135 +12,143 @@ class Login extends HTMLElement {
     this.shadow.innerHTML =
       /* html */`
       <style>
-        .menu-button{
-          cursor:pointer;
-          height: 2rem;
-          width: 2rem;
-          position: relative;
-        }
 
-        .menu-button button{
-          background-color: transparent;
-          border: none;
-          cursor:pointer;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          outline: none;
-          padding: 0;
-        }
+      *{
+        box-sizing: border-box;
+      }
+      
 
-        .menu-button button:before, .menu-button button:after,
-        .menu-button span:before, .menu-button span:after{
-          background-color: hsl(0, 0%, 100%);
-          content: "";
-          display: block;
-          height: 0.2rem;
-          opacity: 1;
-          position: absolute;
-          transition: ease-in-out all 0.15s;
-          width: 100%
-        }
+      .page-title{
+        gap: 3rem;
+      }
 
-        span:before, span:after{
-          top: 50%;
-          transform: translateY(-50%);
-        }
+      .page-title h2{
+        text-align: center;
+        color: hsl(0, 0%, 100%);
+        font-family: "Ubuntu", sans-serif;
+      }
 
-        .menu-button button:before{
-          top: 0.5rem;
-        }
+      form{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem
+      }
 
-        .menu-button button:after{
-          bottom: 0.5rem;
-        }
+      .form-body {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem; 
+        justify-content: center;
+        align-items: center;
+        width: 100%; 
+      }
 
-        .menu-button.active{
-          z-index: 2001;
-        }
+      .form-element {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+        width: 100%;
+      }
 
-        .menu-button.active button:before, .menu-button.active button:after{
-          background-color: hsla(0, 0%, 100%, 0%);
-        }
+      .form-element-label label{
+        color: hsl(0, 0%, 100%);
+        width: 100%;
+        font-family: "Ubuntu", sans-serif;
+      }
 
-        .menu-button.active span:before{
-          background-color: hsl(256, 85%, 21%);
-          transform: rotate(45deg);
-        }
+      .form-element-input input{
+        background-color:hsl(226, 63%, 45%);
+        font-family: "Ubuntu", sans-serif;
+        padding: 0.5rem;
+        width: 100%;
+        border: none;
+      }
 
-        .menu-button.active span:after{
-          background-color: hsl(256, 85%, 21%);
-          transform: rotate(-45deg)
-        }
+      .button input{
+        background-color: hsl(272, 40%, 35%);
+        border:none;
+        border-radius: 0.4rem;
+        color: hsl(0, 0%, 100%);
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        padding: 0.5rem;
+      }
 
-        .menu{
-          background-color: hsla(0, 0%, 100%, 0);
-          height: 100vh;
-          left: 0;
-          position: fixed;
-          top: 0;
-          transition: ease-in-out all 0.3s;
-          visibility: hidden;
-          width: 100%;
-          z-index: 2000;
-        }
+      .footer .bottom-message a{  
+        margin:0;
+        color: hsl(0, 0%, 100%);
+        font-family: "Ubuntu", sans-serif;
+        font-size: 0.8rem;
+        text-decoration: none;
+      }
 
-        .menu.active{
-          background-color: hsla(0, 0%, 100%, 100);
-          visibility: visible;
-        }
       </style>
-
-      <form action="" method="post">
-        <div class="form-body">
-          <div class="form-element">
-            <div class="form-element-label">
-              <label for="email">Email</label>
-            </div>
-            <div class="form-element-input">
-              <input type="email" name="email" id="email" placeholder="ejemplo@gmail.com" required>
-            </div>
+        <section class="login-form">
+          <div class="page-title">
+            <h2>Pedidos</h2>
           </div>
-          <div class="form-element">
-            <div class= "form-element-label">
-              <label for="password">Password</label>
+          <form action="" method="post">
+            <div class="form-body">
+              <div class="form-element">
+                <div class="form-element-label">
+                  <label for="email">Email</label>
+                </div>
+                <div class="form-element-input">
+                  <input type="email" name="email" id="email" placeholder="ejemplo@gmail.com" required>
+                </div>
+              </div>
+              <div class="form-element">
+                <div class= "form-element-label">
+                  <label for="password">Password</label>
+                </div>
+                <div class="form-element-input">
+                  <input type="password" name="password" id="password" placeholder="Ej: Pa$$w0rd596" required>   
+                </div>
+              </div>
+              <div class="form-element buttonSub">
+                <div class="button login-button">
+                  <input type="submit" value="Enviar">
+                </div>
+              </div>  
             </div>
-            <div class="form-element-input">
-              <input type="password" name="password" id="password" placeholder="Ej: Pa$$w0rd596" required>   
+            <div class="footer">
+              <div class="bottom-message">
+                <a href="">Olvidé mi contraseña</a>
+              </div>
             </div>
-          </div>
-          <div class="form-element buttonSub">
-            <div class="button">
-              <input type="submit" value="Enviar">
-            </div>
-          </div>  
-        </div>
-        <div class="footer">
-          <div class="bottom-message">
-            <button></button>
-            <a href="">Olvidé mi contraseña</a>
-          </div>
-        </div>
-      </form>
-      <div class="menu-button">
-        <button>
-            <span></span>
-        </button>
-      </div>
-
-      <div class="menu">
-
-      </div>
+          </form>
+        </section>
       `
 
-    const menuButton = this.shadow.querySelector('.menu-button')
-    const menu = this.shadow.querySelector('.menu')
+    const loginform = this.shadow.querySelector('.login-form')
 
-    menuButton.addEventListener('click', () => {
-      menuButton.classList.toggle('active')
-      menu.classList.toggle('active')
+    loginform.addEventListener('click', async (event) => {
+      event.preventDefault()
+
+      if (event.target.closest('login-button')) {
+        const form = this.shadow.querySelector('form')
+        const formData = new FormData(form)
+        const formDataJson = {}
+
+        for (const [key, value] of formData.entries()) {
+          formDataJson[key] = value !== '' ? value : null
+        }
+
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/auth/user/signin`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(formDataJson)
+        })
+
+        const data = response.json()
+      }
     })
   }
 }
 
-customElements.define('menu-component', Login)
+customElements.define('login-component', Login)

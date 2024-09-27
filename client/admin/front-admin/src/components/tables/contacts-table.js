@@ -1,13 +1,13 @@
 import isEqual from 'lodash-es/isEqual'
 import { store } from '../../redux/store.js'
 import { showFormElement, applyFilter } from '../../redux/crud-slice.js'
-class CompaniesTable extends HTMLElement {
+class ContactsTable extends HTMLElement {
   constructor () {
     super()
     this.shadow = this.attachShadow({ mode: 'open' })
     this.data = []
     this.unsubscribe = null
-    this.endpoint = `${import.meta.env.VITE_API_URL}/api/admin/companies`
+    this.endpoint = `${import.meta.env.VITE_API_URL}/api/admin/contacts`
     this.queryString = null
     this.page = 1
   }
@@ -309,6 +309,15 @@ class CompaniesTable extends HTMLElement {
 
     const tableRecords = this.shadow.querySelector('.table-records')
 
+    const recordDataEntries = [
+      { key: 'id', displayName: 'Id' },
+      { key: 'fingerprintId', displayName: 'Id Huella' },
+      { key: 'name', displayName: 'Nombre' },
+      { key: 'email', displayName: 'Correo' },
+      { key: 'createdAt', displayName: 'Fecha de creación' },
+      { key: 'updatedAt', displayName: 'Fecha de actualización' }
+    ]
+
     this.data.rows.forEach(element => {
       const tableRecord = document.createElement('div')
       tableRecord.classList.add('table-record')
@@ -338,14 +347,14 @@ class CompaniesTable extends HTMLElement {
       const tableRecordBodyData = document.createElement('ul')
       tableRecordBody.appendChild(tableRecordBodyData)
 
-      // `${key}` === 'commercialAddress' ? `Dirección comercial: ${value}` : `${key}: ${value}`
-      // const recordDataNames = { commercialAddress: 'Dirección comercial', fiscalAddress: 'Dirección fiscal', commercialName: 'Nombre comercial', vatNumber: 'NIF', createdAt: 'Fecha de creación', updatedAt: 'Fecha de actualización' }
-
-      Object.entries(element).forEach(([key, value]) => {
-        const listElement = document.createElement('li')
-        listElement.textContent = `${key}: ${value}`
-        // listElement.textContent = `nombre: ${value}`
-        tableRecordBodyData.appendChild(listElement)
+      recordDataEntries.forEach(({ key, displayName }) => {
+        Object.entries(element).forEach(([elementKey, value]) => {
+          if (elementKey === key) {
+            const listElement = document.createElement('li')
+            listElement.textContent = `${displayName} : ${value}`
+            tableRecordBodyData.appendChild(listElement)
+          }
+        })
       })
     })
 
@@ -376,7 +385,7 @@ class CompaniesTable extends HTMLElement {
     this.shadow.querySelector('.table').addEventListener('click', async (event) => {
       if (event.target.closest('.edit-button')) {
         const id = event.target.closest('.edit-button').dataset.id
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/companies/${id}`)
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/contacts/${id}`)
         const data = await response.json()
 
         const formElement = {
@@ -419,4 +428,4 @@ class CompaniesTable extends HTMLElement {
   }
 }
 
-customElements.define('companies-table-component', CompaniesTable)
+customElements.define('contacts-table-component', ContactsTable)

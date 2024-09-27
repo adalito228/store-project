@@ -3,7 +3,6 @@ const Product = sequelizeDb.Product
 const Op = sequelizeDb.Sequelize.Op
 
 exports.create = (req, res) => {
-
   Product.create(req.body).then(async data => {
     res.status(200).send(data)
   }).catch(err => {

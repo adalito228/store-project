@@ -3,7 +3,6 @@ const Contact = sequelizeDb.Contact
 const Op = sequelizeDb.Sequelize.Op
 
 exports.create = (req, res) => {
-
   Contact.create(req.body).then(async data => {
     res.status(200).send(data)
   }).catch(err => {
@@ -35,7 +34,7 @@ exports.findAll = (req, res) => {
 
   Contact.findAndCountAll({
     where: condition,
-    attributes: ['id', 'name', 'email', 'createdAt', 'updatedAt'],
+    attributes: ['id', 'fingerprintId', 'name', 'email', 'createdAt', 'updatedAt'],
     limit,
     offset,
     order: [['createdAt', 'DESC']]

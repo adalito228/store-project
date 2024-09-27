@@ -19,3 +19,11 @@ import './components/forms/companies-form.js'
 import './components/filters/product-categories-filter-modal.js'
 import './components/tables/product-categories-table.js'
 import './components/forms/product-categories-form.js'
+
+import './components/filters/contacts-filter-modal.js'
+import './components/tables/contacts-table.js'
+import './components/forms/contacts-form.js'
+
+import './components/filters/products-filter-modal.js'
+import './components/tables/products-table.js'
+import './components/forms/products-form.js'
